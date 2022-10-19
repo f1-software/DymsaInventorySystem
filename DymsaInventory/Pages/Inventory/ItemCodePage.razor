@@ -1,0 +1,55 @@
+﻿@page "/itemcodes"
+
+<div class="card">
+    <div class="card-header">
+        <span class="card-title">Item Codes</span>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Code</label>
+                                <input  class="form-control" @bind-value="@CurrentItemCode.ItemCodeName" />
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary" @onclick="SaveItemCode">Save</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table table-sm table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ItemCodes.Any())
+                                    {
+                                        foreach (var itemcode in ItemCodes)
+                                        {
+                                            <tr>
+                                                <td>@itemcode.ItemCodeName</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+}

@@ -1,0 +1,97 @@
+@page "/items"
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class="card" id="itemformcard">
+			<div class="card-header">
+				<span class="card-title">Item Form</span>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label for="">Item Genre</label>
+							<select id="item_genre_id" class="form-control select2" @bind="@CurrentItem.ItemGenreId">
+								<option value="0">[SELECT]</option>
+								@foreach (var genres in ItemGenres)
+								{
+									<option value="@genres.ItemGenreId">@genres.ItemGenreName</option>
+								}
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="">Item Code</label>
+							<select id="item_code_id" class="form-control select2" @bind="@CurrentItem.ItemCodeId">
+								<option value="0">[SELECT]</option>
+								@foreach (var itemcode in ItemCodes)
+								{
+									<option value="@itemcode.ItemCodeId">@itemcode.ItemCodeName</option>
+								}
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label for="">Item Name</label>
+							<input type="text" class="form-control" id="item_name" @bind-value="CurrentItem.ItemName">
+						</div>
+						<div class="form-group">
+							<label for="">Item Description</label>
+							<input type="text" class="form-control" id="item_description" @bind-value="CurrentItem.ItemDescription">
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label for="">&nbsp;</label>
+							<br>
+							<button class="btn btn-success btn-block" id="btnsave" @onclick="Save"><i class="fas fa-save"></i> Save</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-bordered table-sm table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Genre</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Items.Any())
+                        {
+                            foreach (var item in Items)
+                            {
+                                <tr>
+                                    <td>
+                                        @{
+                                            var itemgenre = ItemGenres.FirstOrDefault(s=>s.ItemGenreId == item.ItemGenreId)?.ItemGenreName;
+                                            <span>@itemgenre</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @{
+                                            var itemcode = ItemCodes.FirstOrDefault(s=>s.ItemCodeId == item.ItemCodeId)?.ItemCodeName;
+                                            <span>@itemcode</span>
+                                        }
+                                    </td>
+                                    <td>@item.ItemName</td>
+                                    <td>@item.ItemDescription</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

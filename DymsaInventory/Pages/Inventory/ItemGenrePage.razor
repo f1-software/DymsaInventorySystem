@@ -1,0 +1,55 @@
+﻿@page "/itemgenres"
+
+<div class="card">
+    <div class="card-header">
+        <span class="card-title">Item Genres</span>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Genre</label>
+                                <input class="form-control" @bind-value="@CurrentItemGenre.ItemGenreName" />
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary" @onclick="Save">Save</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table table-sm table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ItemGenres.Any())
+                                    {
+                                        foreach (var genre in ItemGenres)
+                                        {
+                                            <tr>
+                                                <td>@genre.ItemGenreName</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+}

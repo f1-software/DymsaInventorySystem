@@ -1,0 +1,114 @@
+@page "/purchasetransaction"
+
+<div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Purchase Transaction Form</span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="">Transaction Date</label>
+					<input type="date" class="form-control" id="transaction_date" @bind-value="CurrentPurchaseTransaction.TransactionDate">
+				</div>
+				<div class="form-group">
+					<!-- <label for="">Item&nbsp;&nbsp;&nbsp;&nbsp;<span id="item_price_text">Price : <span id="item_price_value"></span></span></label> -->
+					<label for="">Item</label>
+					<select id="item_genre_id" class="form-control select2" @bind="@CurrentPurchaseTransaction.ItemId">
+						<option value="0">[SELECT]</option>
+						@foreach (var item in Items)
+						{
+							<option value="@item.ItemId">@item.ItemDescription</option>
+						}
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="">Cost</label>
+					<input type="number" class="form-control number" id="price" @bind-value="CurrentPurchaseTransaction.Cost">
+				</div>
+				<div class="form-group">
+					<label for="">Qty</label>
+					<input type="number" class="form-control" id="qty" @bind-value="CurrentPurchaseTransaction.Qty">
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="form-group">
+					<label for="">Additional Fee</label>
+					<input type="number" class="form-control number" id="delivery_fee" @bind-value="CurrentPurchaseTransaction.AdditionalFee">
+				</div>
+				<div class="row">
+				    <div class="col-sm-6">
+				        <div class="form-group">
+        					<label for="">Comment</label>
+        					<input type="text" class="form-control number" id="delivery_fee" @bind-value="CurrentPurchaseTransaction.Comment">
+        				</div>
+				    </div>
+				    <div class="col-sm-6">
+				        <div class="form-group">
+        					<label for="">&nbsp;</label>
+        					<br>
+        					<button @onclick="Save" class="btn btn-success btn-block" id="btnsave"><i class="fas fa-save"></i> Save</button>
+        				</div>
+				    </div>
+				</div>
+			</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 mt-3">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">List</span>
+        </div>
+        <div class="card-body" id="listarea" style="overflow-x: auto;overflow-y: auto; max-height:500px;">
+            <table class="table table-bordered table-sm table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Item</th>
+                        <th>Cost</th>
+                        <th>Qty</th>
+                        <th>Additional Fee</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (PurchaseTransactions.Any())
+                    {
+                        foreach (var p in PurchaseTransactions)
+                        {
+                            <tr>
+                                <td>@p.TransactionDate.Value.ToShortDateString()</td>
+                                <td>
+                                    @{
+                                        var item = Items.FirstOrDefault(s=>s.ItemId == p.ItemId);
+                                        <span>@item.ItemName - @item.ItemDescription</span>
+                                    }
+                                </td>
+                                <td>@p.Cost</td>
+                                <td>@p.Qty</td>
+                                <td>@p.AdditionalFee</td>
+                                <td >
+                                    @{
+                                        var amount = p.Cost * p.Qty;
+                                        <span>@amount</span>
+                                    }
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary" @onclick="@(()=>Edit(p))">Edit</button>
+                                </td>
+                            </tr>
+                        }
+
+                    }
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+  </div>
