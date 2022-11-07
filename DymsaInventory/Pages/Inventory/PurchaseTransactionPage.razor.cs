@@ -7,11 +7,13 @@ using DymsaInventory.Services;
 using Newtonsoft.Json;
 using DymsaInventory.Models;
 using Microsoft.JSInterop;
+using Sotsera.Blazor.Toaster;
 
 namespace DymsaInventory.Pages.Inventory
 {
     public partial class PurchaseTransactionPage : ComponentBase
     {
+        [Inject] IToaster _toaster { get; set; } = null!;
         [Inject] IHelperService HelperService { get; set; } = null!;
         public List<ItemCode>? ItemCodes { get; set; } = new();
         public List<ItemGenre>? ItemGenres { get; set; } = new();
@@ -47,17 +49,21 @@ namespace DymsaInventory.Pages.Inventory
 
         public async Task Save()
         {
+            
             if (CurrentPurchaseTransaction.PurchaseTransactionId > 0)
             {
                 HelperService.DbQuery($@"UPDATE PurchaseTransaction
                 SET TransactionDate = '{CurrentPurchaseTransaction.TransactionDate}',
                 ItemId = {CurrentPurchaseTransaction.ItemId},
                 Cost = {CurrentPurchaseTransaction.Cost},
+                PriceCost = {CurrentPurchaseTransaction.PriceCost},
                 Qty = {CurrentPurchaseTransaction.Qty},
                 AdditionalFee = {CurrentPurchaseTransaction.AdditionalFee},
                 Comment = '{CurrentPurchaseTransaction.Comment}',
                 IsActive = 1
                 WHERE PurchaseTransactionId = {CurrentPurchaseTransaction.PurchaseTransactionId}");
+
+                _toaster.Success($"Item '{CurrentPurchaseTransaction.Item?.ItemDescription}' have been Updated successfully.");
             }
             else
             {
@@ -68,7 +74,9 @@ namespace DymsaInventory.Pages.Inventory
                                                 {CurrentPurchaseTransaction.Cost},
                                                 {CurrentPurchaseTransaction.Qty},
                                                 {CurrentPurchaseTransaction.AdditionalFee},
-                                                '{CurrentPurchaseTransaction.Comment}',1)");
+                                                '{CurrentPurchaseTransaction.Comment}',
+                                                {CurrentPurchaseTransaction.PriceCost},1)");
+                _toaster.Success($"Item '{CurrentPurchaseTransaction.Item?.ItemDescription}' have been added successfully.");
             }
 
             await LoadData();

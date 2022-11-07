@@ -12,6 +12,7 @@ public partial class PurchaseTransaction
     public int? ItemId { get; set; }
 
     public decimal? Cost { get; set; }
+    public decimal? PriceCost { get; set; }
 
     public int? Qty { get; set; }
 

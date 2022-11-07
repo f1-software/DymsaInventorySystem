@@ -22,4 +22,5 @@ public partial class Item
     public virtual ItemGenre? ItemGenre { get; set; }
 
     public virtual ICollection<PurchaseTransaction> PurchaseTransactions { get; } = new List<PurchaseTransaction>();
+    public virtual ICollection<SaleTransaction> SaleTransactions { get; } = new List<SaleTransaction>();
 }

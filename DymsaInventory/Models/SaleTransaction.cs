@@ -15,9 +15,10 @@ public partial class SaleTransaction
 
     public decimal? DiscountOrCommission { get; set; }
 
-    public string? Net { get; set; }
-
+    public decimal? Net { get; set; }
+    public decimal? Cost { get; set; }
+    public string? Description { get; set; }
     public string? Comment { get; set; }
-
-    public bool? IsActive { get; set; }
+    public bool? Status { get; set; }
+    public virtual Item? Item { get; set; }
 }

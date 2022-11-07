@@ -20,7 +20,8 @@ namespace DymsaInventory.Services
 
         public string DbQuery(string query)
         {
-            var connstring = config.GetConnectionString("SomeeConnection");
+            var connstring = config.GetConnectionString("DefaultConnection");
+           // var connstring = config.GetConnectionString("SomeeConnection");
             DataTable dt = new DataTable();
             using (SqlConnection con = new SqlConnection(connstring))
             {

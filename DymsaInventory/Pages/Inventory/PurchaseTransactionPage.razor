@@ -34,6 +34,10 @@
 					<label for="">Qty</label>
 					<input type="number" class="form-control" id="qty" @bind-value="CurrentPurchaseTransaction.Qty">
 				</div>
+                <div class="form-group">
+					<label for="">PriceCost</label>
+					<input type="number" class="form-control" id="qty" @bind-value="CurrentPurchaseTransaction.PriceCost">
+				</div>
 			</div>
 			<div class="col-sm-4">
 				<div class="form-group">
@@ -51,7 +55,7 @@
 				        <div class="form-group">
         					<label for="">&nbsp;</label>
         					<br>
-        					<button @onclick="Save" class="btn btn-success btn-block" id="btnsave"><i class="fas fa-save"></i> Save</button>
+        					<button @onclick="Save" class="btn btn-success btn-block" id="btnsave"><i class="fas fa-save"></i> Add To Cart</button>
         				</div>
 				    </div>
 				</div>
@@ -73,8 +77,9 @@
                         <th>Item</th>
                         <th>Cost</th>
                         <th>Qty</th>
+                        <th>PriceCost</th>
                         <th>Additional Fee</th>
-                        <th>Amount</th>
+                       
                     </tr>
                 </thead>
                 <tbody>
@@ -92,13 +97,14 @@
                                 </td>
                                 <td>@p.Cost</td>
                                 <td>@p.Qty</td>
+                                <td>@p.PriceCost</td>
                                 <td>@p.AdditionalFee</td>
-                                <td >
+                              @*  <td >
                                     @{
                                         var amount = p.Cost * p.Qty;
                                         <span>@amount</span>
                                     }
-                                </td>
+                                </td>*@
                                 <td>
                                     <button class="btn btn-sm btn-primary" @onclick="@(()=>Edit(p))">Edit</button>
                                 </td>

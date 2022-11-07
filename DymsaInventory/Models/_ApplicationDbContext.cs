@@ -25,10 +25,6 @@ public partial class _ApplicationDbContext : DbContext
 
     public virtual DbSet<SaleTransaction> SaleTransactions { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=DESKTOP-IK7MGEI;Initial Catalog=dbdymsainventory;Persist Security Info=False;User ID=sa;Password=Hello@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Item>(entity =>
@@ -76,18 +72,25 @@ public partial class _ApplicationDbContext : DbContext
 
         modelBuilder.Entity<SaleTransaction>(entity =>
         {
+            entity.HasKey(e => e.SaleTransactionId).HasName("PK__SaleTran__FB5296A4C23B15E5");
+
             entity.ToTable("SaleTransaction");
 
-            entity.Property(e => e.TransactionDate).HasColumnType("datetime");
+            entity.Property(e => e.Cost).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.DiscountOrCommission).HasColumnType("decimal(18, 2)");
-            entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+            entity.Property(e => e.Status).HasDefaultValueSql("((1))");
             entity.Property(e => e.Net)
-                .HasMaxLength(10)
-                .IsFixedLength();
+                .HasColumnType("decimal(18, 2)")
+                .HasColumnName("NET");
+            entity.Property(e => e.TransactionDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Item).WithMany(p => p.SaleTransactions)
+                .HasForeignKey(d => d.ItemId)
+                .HasConstraintName("FK__SaleTrans__ItemI__6477ECF3");
         });
 
-        OnModelCreatingPartial(modelBuilder);
+        base.OnModelCreating(modelBuilder);
     }
 
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+ 
 }
